@@ -180,6 +180,7 @@ CREATE TABLE `nurse` (
 
 LOCK TABLES `nurse` WRITE;
 /*!40000 ALTER TABLE `nurse` DISABLE KEYS */;
+INSERT INTO `nurse` VALUES (2001,111),(2002,112),(2003,113),(2004,114),(2005,115),(2006,116);
 /*!40000 ALTER TABLE `nurse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +235,7 @@ CREATE TABLE `pay_roll` (
   `Work_Schedule_ID` int NOT NULL,
   `Clinic_Staff_ID` int DEFAULT NULL,
   `Type_Of_Salary` varchar(45) DEFAULT NULL,
-  `Rate_of_Pay` decimal(3,2) DEFAULT NULL,
+  `Rate_of_Pay` decimal(9,2) DEFAULT NULL,
   `Salary_Amount` decimal(9,2) DEFAULT NULL,
   PRIMARY KEY (`Pay_Roll_ID`),
   KEY `fk_Pay_Roll_Work_Schedule1_idx` (`Work_Schedule_ID`),
@@ -250,6 +251,7 @@ CREATE TABLE `pay_roll` (
 
 LOCK TABLES `pay_roll` WRITE;
 /*!40000 ALTER TABLE `pay_roll` DISABLE KEYS */;
+INSERT INTO `pay_roll` VALUES (4001,1001,101,'Salary',0.00,11538.46),(4002,1002,102,'Salary',0.00,11538.46),(4003,1003,103,'Salary',0.00,11538.46),(4004,1004,104,'Salary',0.00,10576.92),(4005,1005,105,'Salary',0.00,10576.92),(4006,1006,106,'Salary',0.00,10576.92),(4007,1007,107,'Salary',0.00,8653.84),(4008,1008,108,'Salary',0.00,8653.84),(4009,1009,109,'Salary',0.00,8653.84),(4010,1010,110,'Salary',0.00,8653.84),(4011,1011,111,'Hourly',40.00,NULL),(4012,1012,112,'Hourly',40.00,NULL),(4013,1013,113,'Hourly',34.00,NULL),(4014,1014,114,'Hourly',34.00,NULL),(4015,1015,115,'Hourly',34.00,NULL),(4016,1016,116,'Hourly',29.00,NULL),(4017,1017,117,'Hourly',25.00,NULL),(4018,1018,118,'Hourly',25.00,NULL),(4019,1019,119,'Hourly',22.50,NULL),(4020,1020,120,'Hourly',22.50,NULL),(4021,1021,121,'Hourly',21.60,NULL),(4022,1022,122,'Hourly',26.00,NULL),(4023,1023,123,'Hourly',23.45,NULL),(4024,1024,124,'Hourly',48.00,NULL);
 /*!40000 ALTER TABLE `pay_roll` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,9 +299,6 @@ CREATE TABLE `work_schedule` (
   `Work_Schedule_ID` int NOT NULL,
   `Clinic_Staff_ID` int NOT NULL,
   `Shift` varchar(45) DEFAULT NULL,
-  `Date` date DEFAULT NULL,
-  `Clock_In` time DEFAULT NULL,
-  `Clock_Out` time DEFAULT NULL,
   `Total_Hrs_Worked` decimal(9,2) DEFAULT NULL,
   PRIMARY KEY (`Work_Schedule_ID`),
   KEY `fk_Work_Schedule_Clinic_Staff1_idx` (`Clinic_Staff_ID`),
@@ -313,6 +312,7 @@ CREATE TABLE `work_schedule` (
 
 LOCK TABLES `work_schedule` WRITE;
 /*!40000 ALTER TABLE `work_schedule` DISABLE KEYS */;
+INSERT INTO `work_schedule` VALUES (1001,101,'Day',30.00),(1002,102,'Day',30.00),(1003,103,'Night',30.00),(1004,104,'Day',30.00),(1005,105,'Night',30.00),(1006,106,'Day',30.00),(1007,107,'Night',30.00),(1008,108,'Day',30.00),(1009,109,'Night',30.00),(1010,110,'Night',30.00),(1011,111,'Day',30.00),(1012,112,'Night',28.00),(1013,113,'Night',29.00),(1014,114,'Day',30.00),(1015,115,'Day',30.00),(1016,116,'Night',30.00),(1017,117,'Day',30.00),(1018,118,'Day',30.00),(1019,119,'Day',30.00),(1020,120,'Night',25.00),(1021,121,'Night',25.00),(1022,122,'Day',30.00),(1023,123,'Day',30.00),(1024,124,'Day',30.00);
 /*!40000 ALTER TABLE `work_schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -325,4 +325,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-29  1:08:22
+-- Dump completed on 2021-03-29 11:44:12
