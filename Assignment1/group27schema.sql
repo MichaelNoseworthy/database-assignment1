@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `group27schema` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `group27schema`;
 -- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
 -- Host: localhost    Database: group27schema
@@ -18,27 +16,28 @@ USE `group27schema`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `appoitntment_log`
+-- Table structure for table `appointment_log`
 --
 
-DROP TABLE IF EXISTS `appoitntment_log`;
+DROP TABLE IF EXISTS `appointment_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `appoitntment_log` (
+CREATE TABLE `appointment_log` (
   `Clinic_Staff_ID` int NOT NULL,
   `Patient_ID` int NOT NULL,
+  `Doctor_ID` int NOT NULL,
+  `Nurse_ID` int NOT NULL,
+  `Medical_Log_ID` int NOT NULL,
   `Paid_Balance` decimal(9,2) DEFAULT NULL,
   `Appointment` datetime DEFAULT NULL,
   `Appointment_Status` varchar(50) DEFAULT NULL,
-  `Doctor_Doctor_ID` int NOT NULL,
-  `Nurse_ID` int NOT NULL,
-  `Medical_Log_ID` int NOT NULL,
+  PRIMARY KEY (`Clinic_Staff_ID`,`Patient_ID`,`Doctor_ID`,`Nurse_ID`,`Medical_Log_ID`),
   KEY `fk_Clinic_Staff_has_Patient_Patient1_idx` (`Patient_ID`),
   KEY `fk_Clinic_Staff_has_Patient_Clinic_Staff1_idx` (`Clinic_Staff_ID`),
-  KEY `fk_Appoitntment_Log_Doctor1_idx` (`Doctor_Doctor_ID`),
+  KEY `fk_Appoitntment_Log_Doctor1_idx` (`Doctor_ID`),
   KEY `fk_Appoitntment_Log_Nurse1_idx` (`Nurse_ID`),
   KEY `fk_Appoitntment_Log_Medical_Log1_idx` (`Medical_Log_ID`),
-  CONSTRAINT `fk_Appoitntment_Log_Doctor1` FOREIGN KEY (`Doctor_Doctor_ID`) REFERENCES `doctor` (`Doctor_ID`),
+  CONSTRAINT `fk_Appoitntment_Log_Doctor1` FOREIGN KEY (`Doctor_ID`) REFERENCES `doctor` (`Doctor_ID`),
   CONSTRAINT `fk_Appoitntment_Log_Medical_Log1` FOREIGN KEY (`Medical_Log_ID`) REFERENCES `medical_log` (`Medical_Log_ID`),
   CONSTRAINT `fk_Appoitntment_Log_Nurse1` FOREIGN KEY (`Nurse_ID`) REFERENCES `nurse` (`Nurse_ID`),
   CONSTRAINT `fk_Clinic_Staff_has_Patient_Clinic_Staff1` FOREIGN KEY (`Clinic_Staff_ID`) REFERENCES `clinic_staff` (`Clinic_Staff_ID`),
@@ -47,12 +46,13 @@ CREATE TABLE `appoitntment_log` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `appoitntment_log`
+-- Dumping data for table `appointment_log`
 --
 
-LOCK TABLES `appoitntment_log` WRITE;
-/*!40000 ALTER TABLE `appoitntment_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `appoitntment_log` ENABLE KEYS */;
+LOCK TABLES `appointment_log` WRITE;
+/*!40000 ALTER TABLE `appointment_log` DISABLE KEYS */;
+INSERT INTO `appointment_log` VALUES (117,1102,1,2002,2,0.00,'2020-01-31 12:30:00','Checked-in'),(117,1110,3,2006,10,0.00,'2019-07-14 07:25:00','Checked-in'),(117,1115,6,2002,15,25.00,'2020-12-20 00:00:00','No Show'),(118,1102,1,2004,5,0.00,'2020-02-09 08:33:00','Checked-in'),(118,1102,1,2006,4,15.00,'2020-02-05 07:00:00','Checked-in'),(118,1111,3,2003,11,0.00,'2019-07-14 02:30:00','Checked-in'),(118,1115,6,2001,6,0.00,'2020-06-20 00:00:00','Checked-in'),(119,1101,2,2001,1,0.00,'2020-03-20 09:00:00','Checked-in'),(119,1102,1,2005,7,50.00,'2020-12-03 01:00:00','Canceled'),(119,1112,5,2006,12,0.00,'2021-01-31 05:25:00','Left Without Treatment'),(119,1113,10,2005,13,50.00,'2020-12-01 08:00:00','Canceled'),(120,1108,7,2006,8,25.00,'2021-12-14 01:25:00','No Show'),(120,1109,4,2004,9,0.00,'2018-12-31 04:30:00','Checked-in'),(120,1114,2,2001,14,25.00,'2020-12-20 06:30:00','No Show'),(121,1102,1,2001,3,0.00,'2020-02-03 10:25:00','Checked-in');
+/*!40000 ALTER TABLE `appointment_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -97,10 +97,12 @@ DROP TABLE IF EXISTS `doctor`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `doctor` (
   `Doctor_ID` int NOT NULL,
-  `Clinic_Staff_Clinic_Staff_ID` int NOT NULL,
+  `Clinic_Staff_ID` int NOT NULL,
+  `First_Name` varchar(45) DEFAULT NULL,
+  `Last_Name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Doctor_ID`),
-  KEY `fk_Doctor_Clinic_Staff1_idx` (`Clinic_Staff_Clinic_Staff_ID`),
-  CONSTRAINT `fk_Doctor_Clinic_Staff1` FOREIGN KEY (`Clinic_Staff_Clinic_Staff_ID`) REFERENCES `clinic_staff` (`Clinic_Staff_ID`)
+  KEY `fk_Doctor_Clinic_Staff1_idx` (`Clinic_Staff_ID`),
+  CONSTRAINT `fk_Doctor_Clinic_Staff1` FOREIGN KEY (`Clinic_Staff_ID`) REFERENCES `clinic_staff` (`Clinic_Staff_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -110,7 +112,7 @@ CREATE TABLE `doctor` (
 
 LOCK TABLES `doctor` WRITE;
 /*!40000 ALTER TABLE `doctor` DISABLE KEYS */;
-INSERT INTO `doctor` VALUES (1,101),(2,102),(3,103),(4,104),(5,105),(6,106),(7,107),(8,108),(9,109),(10,110);
+INSERT INTO `doctor` VALUES (1,101,'John','Smith'),(2,102,'Jan','Smithe'),(3,103,'Ralph','Phines'),(4,104,'Zack','Jameson'),(5,105,'Kelly','April'),(6,106,'Juanita','Stinson'),(7,107,'Jamal','Stevens'),(8,108,'Jim','Halpert'),(9,109,'Pam','Scott'),(10,110,'Juan','Rodrigo');
 /*!40000 ALTER TABLE `doctor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -133,19 +135,22 @@ CREATE TABLE `medical_log` (
   `Weight(lbs)` varchar(3) DEFAULT NULL,
   `Height(cm)` varchar(3) DEFAULT NULL,
   `Notes` varchar(100) DEFAULT NULL,
-  `Temperature(C)` decimal(2,2) DEFAULT NULL,
+  `Temperature(C)` decimal(5,1) DEFAULT NULL,
   `Blood_Pressure(s/d)` varchar(7) DEFAULT NULL,
   `Diagnosis` varchar(100) DEFAULT NULL,
   `Treatment` varchar(100) DEFAULT NULL,
   `Tests` varchar(100) DEFAULT NULL,
   `Referrals` varchar(50) DEFAULT NULL,
+  `Specialist_ID` int DEFAULT NULL,
   PRIMARY KEY (`Medical_Log_ID`),
   KEY `fk_Medical_Log_Nurse1_idx` (`Nurse_ID`),
   KEY `fk_Medical_Log_Doctor1_idx` (`Doctor_ID`),
   KEY `fk_Medical_Log_Patient1_idx` (`Patient_ID`),
+  KEY `fk_Medical_Log_Specialist1_idx` (`Specialist_ID`),
   CONSTRAINT `fk_Medical_Log_Doctor1` FOREIGN KEY (`Doctor_ID`) REFERENCES `doctor` (`Doctor_ID`),
   CONSTRAINT `fk_Medical_Log_Nurse1` FOREIGN KEY (`Nurse_ID`) REFERENCES `nurse` (`Nurse_ID`),
-  CONSTRAINT `fk_Medical_Log_Patient1` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`)
+  CONSTRAINT `fk_Medical_Log_Patient1` FOREIGN KEY (`Patient_ID`) REFERENCES `patient` (`Patient_ID`),
+  CONSTRAINT `fk_Medical_Log_Specialist1` FOREIGN KEY (`Specialist_ID`) REFERENCES `specialist` (`Specialist_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -155,6 +160,7 @@ CREATE TABLE `medical_log` (
 
 LOCK TABLES `medical_log` WRITE;
 /*!40000 ALTER TABLE `medical_log` DISABLE KEYS */;
+INSERT INTO `medical_log` VALUES (1,2001,2,1101,'Tylenol 3','Peanuts','Back pain','back hurts','140','120','No notes yet',37.1,'120/70','Herniated Disk','Therapy and Chiro','X-ray','Bonesaw',1001),(2,2002,1,1102,'Oxycodone','Whipped Cream','Back pain','fell while on top of a chair now back is hurting','110','100','If it gets worse, must get surgery.',39.0,'120/80','Verterbrae stress fracture','Rest and drink prescription','X-ray','Bonesaw',1001),(3,2001,1,1102,'Refuses to take prescription','N/A','Leg broken','Helped a civilian from getting hit by a car','190','160','He\'s super strong',37.1,'120/80','Leg popped out of socket','Surgery','X-ray','Bonesaw',1001),(4,2006,1,1102,'Bio-Flu','N/A','Flu','Doctor\'s note','132','110','Just went to get a doc. Note',36.4,'110/50','Flu','Drink medicine','Blood Pressure check, and tonsil check','N/A',1003),(5,2004,1,1102,'N/A','N/A','Vomitting','Nausea and vomitting','111','100','Horribly sick, needs blood work',35.8,'160/80','Not yet known','Not yet known','Blood work and dialysis','Bluf',1010),(6,2003,1,1102,'Tramadol','Sun flower seeds','Chest pains','Chemo therapy','100','90','Chemo therapy',38.0,'120/80','Breast Cancer','Chemo Therapy','Ultrasound','Cancer1',1003),(7,2005,9,1114,'N/A','Anesthesia','Flu','Sprain','158','119','Went to get doc\'s note',36.9,'120/75','Flu','Drink meds','Blood pressure, and lung check','N/A',1005),(8,2006,7,1108,'Dipyridamole','Sun flower seeds','chest hurts','Emergency heart attack','270','140','Immediate surgery',36.7,'200/60','Heart attack','Surgery','Ultra sound, X-ray, blood work','Heart Burning',1006),(9,2004,4,1109,'Adderrall','Sesame seeds','Can\'t focus','Went to see doctor to get higher dose for prescription','90','90','N/A',36.2,'120/80','ADHD','Dring prescription','Cognitive test','N/A',1008),(10,2006,3,1110,'Anti-biotics','Opiods','Joint\'s hurting','Got cut by a rusty blade','150','132','Got cut by a blade and now is feeling horrible, must get admitted',37.5,'140/60','Tetanus infection','Drink anti-biotics and must observed by doctor','Physical exam','N/A',1009),(11,2003,3,1111,'Anti-biotics','Pork','Joint\'s hurting','Stepped on a rusty nail','155','121','stepped on a rusty nail and must be admitted',40.1,'100/60','Tetanus','Drink prescription','Physical','N/A',1005),(12,2006,5,1112,'zanamivir','powder','Coughing, nausea, feels ill','Might potentially has covid','132','111','Has covid',39.2,'120/75','Covid','Quarantine and drink prescription meds','Covid test','N/A',1009),(13,2005,10,1113,'N/A','N/A','N/A','Daily check up','110','98','Check up',38.3,'120/80','N/A','N/A','Physicals','N/A',1003),(14,2001,2,1114,'Tylenol 3','N/A','Pulled Muscle','Biceps torn off from work','190','102','Needs immediate surgery',41.1,'150/80','Biceps Tendon Tear','Surgery','X-ray, ultra sound','Bonesaw',1001),(15,2003,6,1115,'Chemo therapy','N/A','Lung Cancer','Chemo Therapy','90','90','Third round chemo',36.6,'110/60','Lung Cancer','Chemo Therapy','Blood work, Ultrasound','Cancer1',1002);
 /*!40000 ALTER TABLE `medical_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,6 +174,8 @@ DROP TABLE IF EXISTS `nurse`;
 CREATE TABLE `nurse` (
   `Nurse_ID` int NOT NULL,
   `Clinic_Staff_ID` int NOT NULL,
+  `First_Name` varchar(45) DEFAULT NULL,
+  `Last_Name` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`Nurse_ID`),
   KEY `fk_Nurse_Clinic_Staff1_idx` (`Clinic_Staff_ID`),
   CONSTRAINT `fk_Nurse_Clinic_Staff1` FOREIGN KEY (`Clinic_Staff_ID`) REFERENCES `clinic_staff` (`Clinic_Staff_ID`)
@@ -180,7 +188,7 @@ CREATE TABLE `nurse` (
 
 LOCK TABLES `nurse` WRITE;
 /*!40000 ALTER TABLE `nurse` DISABLE KEYS */;
-INSERT INTO `nurse` VALUES (2001,111),(2002,112),(2003,113),(2004,114),(2005,115),(2006,116);
+INSERT INTO `nurse` VALUES (2001,111,'Janette','Henning'),(2002,112,'Amy','Xan'),(2003,113,'Kevin','Man'),(2004,114,'Jake','Rende'),(2005,115,'Kindra','Bennet'),(2006,116,'Whitney','Houston');
 /*!40000 ALTER TABLE `nurse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,18 +272,12 @@ DROP TABLE IF EXISTS `specialist`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `specialist` (
   `Specialist_ID` int NOT NULL,
-  `Clinic_Staff_ID` int NOT NULL,
   `Address` varchar(50) DEFAULT NULL,
   `Phone_Number` varchar(24) DEFAULT NULL,
   `Email` varchar(50) DEFAULT NULL,
   `Specialization` varchar(50) DEFAULT NULL,
   `Company_Name` varchar(50) DEFAULT NULL,
-  `Medical_Log_ID` int DEFAULT NULL,
-  PRIMARY KEY (`Specialist_ID`),
-  KEY `fk_Specialist_Clinic_Staff1_idx` (`Clinic_Staff_ID`),
-  KEY `fk_Specialist_Medical_Log1_idx` (`Medical_Log_ID`),
-  CONSTRAINT `fk_Specialist_Clinic_Staff1` FOREIGN KEY (`Clinic_Staff_ID`) REFERENCES `clinic_staff` (`Clinic_Staff_ID`),
-  CONSTRAINT `fk_Specialist_Medical_Log1` FOREIGN KEY (`Medical_Log_ID`) REFERENCES `medical_log` (`Medical_Log_ID`)
+  PRIMARY KEY (`Specialist_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -285,6 +287,7 @@ CREATE TABLE `specialist` (
 
 LOCK TABLES `specialist` WRITE;
 /*!40000 ALTER TABLE `specialist` DISABLE KEYS */;
+INSERT INTO `specialist` VALUES (1001,'230 Front St','(289)-902-4902','bonesaw@fake.ca','Bone and Muscle','Bonesaw'),(1002,'333 College St','(647)-456-2344','bluf@fake.ca','Blood and Flu','Bluf'),(1003,'479 Queen St','(416)-972-0484','heartburning@fake.ca','Heart Surgery','Heart Burning'),(1004,'323 Harbord St','(647)-902-3443','cc@fake.ca','Cancer treatment','Cancer1'),(1005,'230 Front St','(289)-902-4902','ultra@fake.ca','Ultra Sound','SoundUltra'),(1006,'444 Queen st','(647)-222-222','covid@fake.ca','Covid Treatment','Co-19'),(1007,'1469 Frank Rd','(416)-111-0091','chriopractor@fake.com','Chriopractor','Alignment co.'),(1008,'910 Bayview Ave','(416)-901-0012','sprainsrus@fake.com','Physiotherapy','Sprains and Pains'),(1009,'1343 Avenue St','(647)-012-9101','bloodlab@fake.ca','Blood Work','Health Link'),(1010,'1200 Danforth Ave','(416)-999-1122','osteobody@fake.com','Osteopath','Better U ');
 /*!40000 ALTER TABLE `specialist` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -325,4 +328,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-29 11:44:12
+-- Dump completed on 2021-04-10 23:01:40
